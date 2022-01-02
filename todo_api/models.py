@@ -9,9 +9,9 @@ class User(models.Model):
 class Task(models.Model):
     Title = models.CharField(max_length=50, null=False)
     Description = models.TextField(max_length=1000)
-    Completed = models.BooleanField(null=False)
+    Completed = models.BooleanField(auto_created=False, null=False)
     CreatedOn = models.DateTimeField(auto_now_add=True, null=False)
-    CompletedOn = models.DateTimeField()
+    CompletedOn = models.DateTimeField(null=True)
     BelongsTo = models.ForeignKey(
         User,
         on_delete=deletion.CASCADE,
