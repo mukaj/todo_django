@@ -9,10 +9,12 @@ from django.contrib.auth.models import User
 from todo_api.serializers import TaskSerializer, UserSerializer
 
 from rest_framework import status
-from rest_framework.decorators import api_view
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 
 @api_view(['GET', 'POST'])
+@permission_classes([IsAuthenticatedOrReadOnly])
 def task_list(request):
     """
     List all tasks or create a new task
@@ -31,6 +33,7 @@ def task_list(request):
         return JsonResponse(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET', 'PUT', 'PATCH', 'DELETE'])
+@permission_classes([IsAuthenticated])
 def task_detail(request, pk):
     """
     Retrieve, update or delete a task.
@@ -63,6 +66,7 @@ def task_detail(request, pk):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 @api_view(['GET'])
+@permission_classes([IsAuthenticated])
 def user_list(request):
     if request.method == 'GET':
         users = User.objects.all()
