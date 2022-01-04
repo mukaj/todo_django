@@ -5,7 +5,8 @@ from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
 from todo_api.models import Task
-from todo_api.serializers import TaskSerializer
+from django.contrib.auth.models import User
+from todo_api.serializers import TaskSerializer, UserSerializer
 
 from rest_framework import status
 from rest_framework.decorators import api_view
@@ -60,3 +61,10 @@ def task_detail(request, pk):
     elif request.method == 'DELETE':
         task.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['GET'])
+def user_list(request):
+    if request.method == 'GET':
+        users = User.objects.all()
+        serializer = UserSerializer(users, many=True)
+        return JsonResponse(serializer.data, safe=False)

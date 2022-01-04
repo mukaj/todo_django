@@ -1,10 +1,8 @@
 from django.db import models
+from django.contrib.auth.models import User
 from django.db.models import deletion
 
 # Create your models here.
-
-class User(models.Model):
-    Name = models.CharField(max_length=50)
 
 class Task(models.Model):
     Title = models.CharField(max_length=50, null=False)
